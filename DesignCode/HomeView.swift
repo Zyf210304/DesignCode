@@ -10,6 +10,8 @@ import SwiftUI
 struct HomeView: View {
     
     @Binding var showProfile: Bool
+    @State var showUpdate = false
+    
     
     var body: some View {
         VStack {
@@ -21,15 +23,42 @@ struct HomeView: View {
                 Spacer()
                 
                 AvaterView(showProfile: $showProfile)
+                
+                Button(action: {
+                    self.showUpdate.toggle()
+                }) {
+                    Image(systemName: "bell")
+                        .renderingMode(.original)
+                        .font(.system(size: 16, weight: .medium))
+                        .frame(width: 36, height: 36, alignment: .center)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1 )
+                        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 10 )
+                    
+                }.sheet(isPresented: $showUpdate, content: {
+                    UpdateList()
+                })
+                
             }
             .padding(.horizontal)
             .padding(.leading, 14)
             .padding(.top, 30)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack (spacing: 30){
-                    ForEach(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { item in
-                        SectionView()
+                HStack (spacing: 20){
+                    ForEach(sectionData) { section in
+                        GeometryReader { geometry in
+                            SectionView(section: section)
+                                .rotation3DEffect(
+                                    .degrees(Double(geometry.frame(in: .global).minX) / -20),
+                                    axis: (x: 0.0, y: 1.0, z: 0.0),
+                                    anchor: .center,
+                                    anchorZ: 0.0,
+                                    perspective: 1.0
+                                )
+                        }
+                        .frame(width: 275, height: 275, alignment: .center)
                     }
                 }
                 .padding(30)
@@ -69,25 +98,28 @@ struct HomeView_Previews: PreviewProvider {
 }
 
 struct SectionView: View {
+    
+    var section: Section
+    
     var body: some View {
         VStack {
             HStack (alignment: .top) {
-                Text("Prototype designs in SwiftUI")
+                Text(section.tiltle)
                     .font(.system(size: 24, weight: .bold, design: .default))
                     .frame(width: 160, alignment: .leading)
                     .foregroundColor(Color.white)
                 
                 Spacer()
                 
-                Image("Logo")
+                Image(section.logo)
                     .resizable()
                     .frame(width: 40, height: 40, alignment: .center)
             }
             
-            Text("18 Sections".uppercased())
+            Text(section.text.uppercased())
                 .frame(maxWidth:.infinity, alignment: .leading)
             
-            Image("Illustration1")
+            section.image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 210)
@@ -96,8 +128,8 @@ struct SectionView: View {
         .padding(.top, 20)
         .padding(.horizontal, 20)
         .frame(width: 275, height: 275, alignment: .center)
-        .background(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)).opacity(0.5))
+        .background(section.color.opacity(0.9))
         .cornerRadius(30)
-        .shadow(color: Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)), radius: 20, x: 0, y: 20)
+        .shadow(color: section.color, radius: 20, x: 0, y: 20)
     }
 }

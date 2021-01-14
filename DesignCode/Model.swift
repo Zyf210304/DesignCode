@@ -36,11 +36,11 @@ struct  PostNetList : Codable{
 }
 
 struct Post:Codable, Identifiable {
-    
+
     let id: Int
-    let avatat: String
-    let vip: Bool
-    
+    let userId: Int
+    let title: String
+    let body: String
     
 }
 

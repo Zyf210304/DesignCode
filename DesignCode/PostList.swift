@@ -13,7 +13,9 @@ struct PostList: View {
     
 
     @State private var showText = ""
-        
+    @State var posts:[Post] = []
+    
+    
     var body: some View {
         VStack {
             
@@ -32,6 +34,13 @@ struct PostList: View {
                 Text("Clear").font(.largeTitle)
             }
             
+            List(posts) { post in
+                Text(post.title)
+            }
+            
+            
+            
+            
         }
     }
     
@@ -40,11 +49,16 @@ struct PostList: View {
         
         let url = "https://jsonplaceholder.typicode.com/posts"
         ZN.GET(url: url).success { (response) in
-            print("Success")
+            self.updateText("Success")
             print(response)
+            do {
+                try self.posts = response as! [Post]
+            } catch {
+                print(error)
+            }
+            
         }.failed { (HWNetworkingError) in
-            print("Error")
-            print(HWNetworkingError)
+            self.updateText("Error")
         }
         
         
@@ -61,8 +75,8 @@ struct PostList: View {
 
 
 
-//struct PostList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PostList()
-//    }
-//}
+struct PostList_Previews: PreviewProvider {
+    static var previews: some View {
+        PostList()
+    }
+}

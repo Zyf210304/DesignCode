@@ -31,3 +31,16 @@ let sectionData = [
 ]
 
 
+struct  PostNetList : Codable{
+    var list:[Post]
+}
+
+struct Post:Codable, Identifiable {
+    
+    let id: Int
+    let avatat: String
+    let vip: Bool
+    
+    
+}
+

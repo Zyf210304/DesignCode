@@ -38,9 +38,9 @@ struct  PostNetList : Codable{
 struct Post:Codable, Identifiable {
 
     let id: Int
-    let userId: Int
-    let title: String
-    let body: String
+    var userId: Int
+    var title: String
+    var body: String
     
 }
 

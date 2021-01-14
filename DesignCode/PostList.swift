@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Alamofire
-
+import SwiftyJSON
 
 struct PostList: View {
     
@@ -49,13 +49,16 @@ struct PostList: View {
         
         let url = "https://jsonplaceholder.typicode.com/posts"
         ZN.GET(url: url).success { (response) in
+            
             self.updateText("Success")
             print(response)
-            do {
-                try self.posts = response as! [Post]
-            } catch {
-                print(error)
-            }
+//            let jsonS = JSON(response)
+//            print(jsonS)
+            
+//            guard  let data = try? JSONSerialization.data(withJSONObject: response, options: [.fragmentsAllowed]) else {return}
+//            self.posts = try! JSONDecoder.init().decode([Post].self, from: data)
+
+//            self.posts = try! JSONDecoder.init().decode(<#T##type: Decodable.Protocol##Decodable.Protocol#>, from: <#T##Data#>)
             
         }.failed { (HWNetworkingError) in
             self.updateText("Error")
@@ -75,8 +78,8 @@ struct PostList: View {
 
 
 
-struct PostList_Previews: PreviewProvider {
-    static var previews: some View {
-        PostList()
-    }
-}
+//struct PostList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostList()
+//    }
+//}

@@ -84,7 +84,7 @@ struct Home: View {
                         Image(systemName: "xmark")
                             .frame(width: 36, height: 36, alignment: .center)
                             .foregroundColor(.white)
-                            .background(Color.black)
+                            .background(BlurView())
                             .clipShape(Circle())
                             .padding()
                             .onTapGesture {

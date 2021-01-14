@@ -95,7 +95,7 @@ struct ContentView: View {
                 .offset(x: 0, y: showCard ? 360 : 1000)
                 .blur(radius: show ?  20 : 0)
                 .offset(y:bottomState.height)
-                .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8))
+                .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0))
                 .gesture(
                     DragGesture().onChanged { value in
                         self.bottomState = value.translation
@@ -210,7 +210,7 @@ struct BottomCardView: View {
 
             HStack(spacing: 20) {
                 RingView(color1: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), color2: #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), width: 88, height:88, percent: 78, show: $show)
-                    .animation(Animation.easeInOut.delay(0.3))
+//                    .animation(Animation.easeInOut)
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("SwiftUI").fontWeight(.bold)
@@ -232,7 +232,7 @@ struct BottomCardView: View {
         .padding(.top, 8)
         .padding(.horizontal, 20)
         .frame(maxWidth: .infinity)
-        .background(Color.white)
+        .background(BlurView())
         .cornerRadius(30)
         .shadow(radius: 20)
         
